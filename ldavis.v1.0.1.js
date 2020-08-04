@@ -411,8 +411,8 @@ var LDAvis = function(to_select, data_or_file_name) {
             .style("font-size", "11px")
             .style("fontWeight", 100)
             .text(function(d) {
-                console.log(d.topics);
-                return d.topics;
+                console.log(d.labels);
+                return d.labels;
             });
 
         // draw circles
@@ -1035,6 +1035,7 @@ var LDAvis = function(to_select, data_or_file_name) {
             var d = circle.__data__;
             var Freq = Math.round(d.Freq * 10) / 10,
                 topics = d.topics;
+            var labels = d.labels;
 
             // change opacity and fill of the selected circle
             circle.style.opacity = highlight_opacity;
@@ -1052,7 +1053,7 @@ var LDAvis = function(to_select, data_or_file_name) {
                 .attr("class", "bubble-tool") //  set class so we can remove it when highlight_off is called
                 .style("text-anchor", "middle")
                 .style("font-size", "16px")
-                .text("Top-" + R + " Most Relevant Terms for Topic " + topics + " (" + Freq + "% of tokens)");
+                .text("Top-" + R + " Most Relevant Terms for Topic " + labels + " (" + Freq + "% of tokens)");
 
             // grab the bar-chart data for this topic only:
             var dat2 = lamData.filter(function(d) {
