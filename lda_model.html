@@ -3,6 +3,8 @@
 <!-- Did not change CSS from original yet -->
 <body>
   <button onclick="change()">Toggle</button>
+  <button onclick="rem1()">Remove 1</button>
+  <button onclick="rem2()">Remove 2</button>
 <div id="ldavis_el716421126754284165291324392" style="display: block;"></div>
 <div id="ldavis_el58601401036016732647332626198" style="display: none;"></div>
 </body>
@@ -57,5 +59,19 @@ function change(){
     a.style.display='block';
     console.log("entering else")
   }
+}
+
+function rem1() {
+  //  var a = document.getElementById('ldavis_el716421126754284165291324392');
+   var text = d3.select("#" + "ldavis_el716421126754284165291324392"+"-leftpanel");
+  text.remove();
+   console.log(text);
+}
+
+function rem2() {
+  // var a = document.getElementById('ldavis_el58601401036016732647332626198');
+  var text = d3.select("#" + "ldavis_el58601401036016732647332626198");
+  text.remove();
+  console.log(text);
 }
 </script>
