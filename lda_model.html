@@ -2,13 +2,11 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.css">
 <!-- Did not change CSS from original yet -->
 <body>
-  <button onclick="change()">Toggle</button>
-  <button onclick="rem1()">Remove 1</button>
-  <button onclick="rem2()">Remove 2</button>
-<div id="ldavis_el716421126754284165291324392" style="display: block;"></div>
-<div id="ldavis_el58601401036016732647332626198" style="display: none;"></div>
-<div id="wk31"></div>
-<div id="wk32"></div>
+  <button onclick="visualise('wk31', wk31_data)">Week 31</button>
+  <button onclick="visualise('wk32', wk32_data)">Week 32</button>
+  <button onclick="visualise('ldavis_el58601401036016732647332626198', ldavis_el58601401036016732647332626198_data)">Sample</button>
+  <button onclick="visualise('ldavis_el716421126754284165291324392', ldavis_el716421126754284165291324392_data)">Tattle_Sample</button>
+<div id="superdiv"></div>
 
 </body>
 <script type="text/javascript" src="ldavis.v1.0.1.js"></script>
@@ -28,57 +26,52 @@ function LDAvis_load_lib(url, callback){
 if(typeof(LDAvis) !== "undefined"){
    // already loaded: just create the visualization
    !function(LDAvis){
-       new LDAvis("#" + "ldavis_el58601401036016732647332626198", ldavis_el58601401036016732647332626198_data);
-       new LDAvis("#" + "ldavis_el716421126754284165291324392", ldavis_el716421126754284165291324392_data);
-       new LDAvis("wk31", wk31_data);
-       new LDAvis("wk32", wk32_data);
+      //  new LDAvis("#" + "ldavis_el58601401036016732647332626198", ldavis_el58601401036016732647332626198_data);
+      //  new LDAvis("#" + "ldavis_el716421126754284165291324392", ldavis_el716421126754284165291324392_data);
+      //  new LDAvis("#wk31", wk31_data);
+      //  new LDAvis("#wk32", wk32_data);
+      allLoaded();
    }(LDAvis);
 }else if(typeof define === "function" && define.amd){
    // require.js is available: use it to load d3/LDAvis
    require.config({paths: {d3: "https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min"}});
    require(["d3"], function(d3){
       window.d3 = d3;
-      new LDAvis("#" + "ldavis_el58601401036016732647332626198", ldavis_el58601401036016732647332626198_data);
-      new LDAvis("#" + "ldavis_el716421126754284165291324392", ldavis_el716421126754284165291324392_data);
-      new LDAvis("wk31", wk31_data);
-      new LDAvis("wk32", wk32_data);
+      // new LDAvis("#" + "ldavis_el58601401036016732647332626198", ldavis_el58601401036016732647332626198_data);
+      // new LDAvis("#" + "ldavis_el716421126754284165291324392", ldavis_el716421126754284165291324392_data);
+      // new LDAvis("#wk31", wk31_data);
+      // new LDAvis("#wk32", wk32_data);
     });
 }else{
     // require.js not available: dynamically load d3 & LDAvis
     LDAvis_load_lib("https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", function(){
          LDAvis_load_lib("ldavis.v1.0.1.js", function(){
                  
-                 new LDAvis("#" + "ldavis_el716421126754284165291324392", ldavis_el716421126754284165291324392_data);
+                //  new LDAvis("#" + "ldavis_el716421126754284165291324392", ldavis_el716421126754284165291324392_data);
             })
          });
 }
 
+// This function will trigger the visualisation of the latest week data by default
+function allLoaded(){
+  const superdiv=document.getElementById('superdiv');
+}
 
+function visualise(wkID, data){
+  const parentdiv = document.getElementById('superdiv');
+  var childrendiv = parentdiv.children;
 
-function change(){
-  var a= document.getElementById('ldavis_el716421126754284165291324392');
-  var b=document.getElementById('ldavis_el58601401036016732647332626198');
-  if(b.style.display=='none'){
-    a.style.display='none';
-    b.style.display='block';
-  } else {
-    b.style.display='none';
-    a.style.display='block';
-    console.log("entering else")
+  if(childrendiv.length!=0){
+    for(var i=0;i<childrendiv.length;i++){
+      childrendiv[i].remove();
+    }
   }
+
+  var vis = document.createElement("div");
+  vis.id = wkID;
+  parentdiv.appendChild(vis);
+  // new LDAvis('#' + wkID, wkID + '_data' ); On passing a string, function looks for a data file. Can be used to feed data files dynamically
+  new LDAvis('#' + wkID, data);
 }
 
-function rem1() {
-  //  var a = document.getElementById('ldavis_el716421126754284165291324392');
-   var text = d3.select("#" + "ldavis_el716421126754284165291324392"+"-leftpanel");
-  text.remove();
-   console.log(text);
-}
-
-function rem2() {
-  // var a = document.getElementById('ldavis_el58601401036016732647332626198');
-  var text = d3.select("#" + "ldavis_el58601401036016732647332626198");
-  text.remove();
-  console.log(text);
-}
 </script>
