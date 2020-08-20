@@ -2,6 +2,10 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.css">
 <!-- Did not change CSS from original yet -->
 <body>
+  <h3 id="sliderheader">Slider input</h3>
+  <input type="range" min="31" max="34" value="31" class="slider" id="num">
+  <br>
+  <h3>Button input</h3>
   <button onclick="visualise('wk31', wk31_data)">Week 31</button>
   <button onclick="visualise('wk32', wk32_data)">Week 32</button>
   <button onclick="visualise('ldavis_el58601401036016732647332626198', ldavis_el58601401036016732647332626198_data)">Sample</button>
@@ -70,8 +74,38 @@ function visualise(wkID, data){
   var vis = document.createElement("div");
   vis.id = wkID;
   parentdiv.appendChild(vis);
-  // new LDAvis('#' + wkID, wkID + '_data' ); On passing a string, function looks for a data file. Can be used to feed data files dynamically
-  new LDAvis('#' + wkID, data);
+  // On passing a string, function looks for a data file.Can be used to feed data files dynamically
+  new LDAvis('#' + wkID, wkID ); 
+  // new LDAvis('#' + wkID, data);
 }
 
+const slider = document.getElementById('num');
+const header =  document.getElementById('sliderheader');
+
+slider.oninput = function () {
+    
+    console.log(this.value);
+
+    switch (this.value) {
+      case '31':
+        visualise('wk31',wk31_data); 
+       break;
+      case '32':
+        visualise('wk32', wk32_data);
+        break;
+
+      case '33':
+        visualise('ldavis_el58601401036016732647332626198', ldavis_el58601401036016732647332626198_data);
+        break;
+
+      case '34':
+        visualise('ldavis_el716421126754284165291324392', ldavis_el716421126754284165291324392_data);
+        break;
+      default:
+        console.log("Slider error")
+        break;
+    }
+    header.innerText="Slider input (Week " + this.value + ")"; 
+    // visualise('wk32', wk32_data);
+} 
 </script>

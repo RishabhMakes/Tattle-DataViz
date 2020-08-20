@@ -1397,7 +1397,7 @@ var LDAvis = function(to_select, data_or_file_name) {
     }
 
     if (typeof data_or_file_name === 'string')
-        d3.json(data_or_file_name, function(error, data) {visualize(data);});
+        d3.json(data_or_file_name+'.json', function(error, data) {visualize(data);});
     else
         visualize(data_or_file_name);
 
