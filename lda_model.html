@@ -61,7 +61,7 @@ function allLoaded(){
   const superdiv=document.getElementById('superdiv');
 }
 
-function visualise(wkID, data){
+function visualise(wkID){
   const parentdiv = document.getElementById('superdiv');
   var childrendiv = parentdiv.children;
 
@@ -75,7 +75,7 @@ function visualise(wkID, data){
   vis.id = wkID;
   parentdiv.appendChild(vis);
   // On passing a string, function looks for a data file.Can be used to feed data files dynamically
-  new LDAvis('#' + wkID, wkID ); 
+  new LDAvis('#' + wkID, wkID +'.json'); 
   // new LDAvis('#' + wkID, data);
 }
 
@@ -88,18 +88,20 @@ slider.oninput = function () {
 
     switch (this.value) {
       case '31':
-        visualise('wk31',wk31_data); 
+        visualise('wk31'); 
        break;
       case '32':
-        visualise('wk32', wk32_data);
+        visualise('wk32');
         break;
 
       case '33':
-        visualise('ldavis_el58601401036016732647332626198', ldavis_el58601401036016732647332626198_data);
+        // visualise('ldavis_el58601401036016732647332626198', ldavis_el58601401036016732647332626198_data);
+        visualise('ldavis_el58601401036016732647332626198');
         break;
 
       case '34':
-        visualise('ldavis_el716421126754284165291324392', ldavis_el716421126754284165291324392_data);
+        // visualise('ldavis_el716421126754284165291324392', ldavis_el716421126754284165291324392_data);
+        visualise('ldavis_el716421126754284165291324392');
         break;
       default:
         console.log("Slider error")
