@@ -5,7 +5,7 @@
 'use strict';
 
 var LDAvis = function(to_select, data_or_file_name) {
-
+    console.log("called again")
     // This section sets up the logic for event handling
     var current_clicked = {
         what: "nothing",
@@ -24,7 +24,9 @@ var LDAvis = function(to_select, data_or_file_name) {
             topic: 0,
             term: ""
         };
-
+    
+    // vis_params.week = parseInt(to_select.substring(to_select.length-2,to_select.length));
+    state_save(true);
     // Set up a few 'global' variables to hold the data:
     var K, // number of topics
         R, // number of terms to display in bar chart
@@ -123,7 +125,7 @@ var LDAvis = function(to_select, data_or_file_name) {
         }
 
         //Rishabh
-        console.log(mdsData);
+        // console.log(mdsData);
         //Rishabh ends
 
         // a huge matrix with 3 columns: Term, Topic, Freq, where Freq is all non-zero probabilities of topics given terms
@@ -138,8 +140,8 @@ var LDAvis = function(to_select, data_or_file_name) {
         }
 
         //Rishabh
-        console.log("a huge matrix with 3 columns: Term, Topic, Freq, where Freq is all non-zero probabilities of topics given terms");
-        console.log(mdsData3);
+        // console.log("a huge matrix with 3 columns: Term, Topic, Freq, where Freq is all non-zero probabilities of topics given terms");
+        // console.log(mdsData3);
         //Rishabh ends
 
         // large data for the widths of bars in bar-charts. 6 columns: Term, logprob, loglift, Freq, Total, Category
@@ -155,9 +157,9 @@ var LDAvis = function(to_select, data_or_file_name) {
         }
 
         //Rishabh
-        console.log("large data for the widths of bars in bar-charts. 6 columns: Term, logprob, loglift, Freq, Total, Category");
-        console.log("Contains all possible terms for topics in (1, 2, ..., k) and lambda in the user-supplied grid of lambda values which defaults to (0, 0.01, 0.02, ..., 0.99, 1).");
-        console.log(lamData);
+        // console.log("large data for the widths of bars in bar-charts. 6 columns: Term, logprob, loglift, Freq, Total, Category");
+        // console.log("Contains all possible terms for topics in (1, 2, ..., k) and lambda in the user-supplied grid of lambda values which defaults to (0, 0.01, 0.02, ..., 0.99, 1).");
+        // console.log(lamData);
         //Rishabh ends
 
         var dat3 = lamData.slice(0, R);
@@ -173,7 +175,7 @@ var LDAvis = function(to_select, data_or_file_name) {
      
 
         // When the value of lambda changes, update the visualization
-        console.log('lambda_select', lambda_select);
+        // console.log('lambda_select', lambda_select);
         d3.select(lambda_select)
             .on("mouseup", function() {
                 console.log('lambda_select mouseup');
@@ -1326,61 +1328,64 @@ var LDAvis = function(to_select, data_or_file_name) {
         // serialize the visualization state using fragment identifiers -- http://en.wikipedia.org/wiki/Fragment_identifier
         // location.hash holds the address information
 
-        var params = location.hash.split("&");
-        if (params.length > 1) {
-            vis_state.topic = params[0].split("=")[1];
-            vis_state.lambda = params[1].split("=")[1];
-            vis_state.term = params[2].split("=")[1];
+        // var params = location.hash.split("&");
+        // console.log("This got executed");
+        // if (params.length > 1) {
+        //     console.log("This got executed");
+        //     vis_state.topic = params[0].split("=")[1];
+        //     vis_state.lambda = params[1].split("=")[1];
+        //     // vis_state.term = params[2].split("=")[1];
 
-            // Idea: write a function to parse the URL string
-            // only accept values in [0,1] for lambda, {0, 1, ..., K} for topics (any string is OK for term)
-            // Allow for subsets of the three to be entered:
-            // (1) topic only (lambda = 1 term = "")
-            // (2) lambda only (topic = 0 term = "") visually the same but upon hovering a topic, the effect of lambda will be seen
-            // (3) term only (topic = 0 lambda = 1) only fires when the term is among the R most salient
-            // (4) topic + lambda (term = "")
-            // (5) topic + term (lambda = 1)
-            // (6) lambda + term (topic = 0) visually lambda doesn't make a difference unless a topic is hovered
-            // (7) topic + lambda + term
+        //     // Idea: write a function to parse the URL string
+        //     // only accept values in [0,1] for lambda, {0, 1, ..., K} for topics (any string is OK for term)
+        //     // Allow for subsets of the three to be entered:
+        //     // (1) topic only (lambda = 1 term = "")
+        //     // (2) lambda only (topic = 0 term = "") visually the same but upon hovering a topic, the effect of lambda will be seen
+        //     // (3) term only (topic = 0 lambda = 1) only fires when the term is among the R most salient
+        //     // (4) topic + lambda (term = "")
+        //     // (5) topic + term (lambda = 1)
+        //     // (6) lambda + term (topic = 0) visually lambda doesn't make a difference unless a topic is hovered
+        //     // (7) topic + lambda + term
 
-            // Short-term: assume format of "#topic=k&lambda=l&term=s" where k, l, and s are strings (b/c they're from a URL)
+        //     // Short-term: assume format of "#topic=k&lambda=l&term=s" where k, l, and s are strings (b/c they're from a URL)
 
-            // Force k (topic identifier) to be an integer between 0 and K:
-            vis_state.topic = Math.round(Math.min(K, Math.max(0, vis_state.topic)));
+        //     // Force k (topic identifier) to be an integer between 0 and K:
+        //     vis_state.topic = Math.round(Math.min(K, Math.max(0, vis_state.topic)));
 
-            // Force l (lambda identifier) to be in [0, 1]:
-            vis_state.lambda = Math.min(1, Math.max(0, vis_state.lambda));
+        //     // Force l (lambda identifier) to be in [0, 1]:
+        //     vis_state.lambda = Math.min(1, Math.max(0, vis_state.lambda));
 
-            // impose the value of lambda:
-            document.getElementById(lambdaID).value = vis_state.lambda;
-            document.getElementById(lambdaID + "-value").innerHTML = vis_state.lambda;
+        //     // impose the value of lambda:
+        //     document.getElementById(lambdaID).value = vis_state.lambda;
+        //     document.getElementById(lambdaID + "-value").innerHTML = vis_state.lambda;
 
-            // select the topic and transition the order of the bars (if approporiate)
-            if (!isNaN(vis_state.topic)) {
-                document.getElementById(topicID).value = vis_state.topic;
-                if (vis_state.topic > 0) {
-                    topic_on(document.getElementById(topicID + vis_state.topic));
-                }
-                if (vis_state.lambda < 1 && vis_state.topic > 0) {
-                    reorder_bars(false);
-                }
-            }
-            lambda.current = vis_state.lambda;
-            var termElem = document.getElementById(termID + vis_state.term);
-            if (termElem !== undefined) term_on(termElem);
-        }
+        //     // select the topic and transition the order of the bars (if approporiate)
+        //     if (!isNaN(vis_state.topic)) {
+        //         document.getElementById(topicID).value = vis_state.topic;
+        //         if (vis_state.topic > 0) {
+        //             topic_on(document.getElementById(topicID + vis_state.topic));
+        //         }
+        //         if (vis_state.lambda < 1 && vis_state.topic > 0) {
+        //             reorder_bars(false);
+        //         }
+        //     }
+        //     lambda.current = vis_state.lambda;
+        //     var termElem = document.getElementById(termID + vis_state.term);
+        //     if (termElem !== undefined) term_on(termElem);
+        // }
 
-        function state_url() {
-            return location.origin + location.pathname + "#topic=" + vis_state.topic +
-                "&lambda=" + vis_state.lambda + "&term=" + vis_state.term;
-        }
+        // function state_url() {
+        //     console.log("This got executed");
+        //     return location.origin + location.pathname + "#topic=" + vis_state.topic +
+        //         "&lambda=" + vis_state.lambda + "&term=" + vis_state.term;
+        // }
 
-        function state_save(replace) {
-            if (replace)
-                history.replaceState(vis_state, "Query", state_url());
-            else
-                history.pushState(vis_state, "Query", state_url());
-        }
+        // function state_save(replace) {
+        //     if (replace)
+        //         history.replaceState(vis_state, "Query", state_url());
+        //     else
+        //         history.pushState(vis_state, "Query", state_url());
+        // }
 
         function state_reset() {
             if (vis_state.topic > 0) {

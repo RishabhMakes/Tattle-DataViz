@@ -1,22 +1,76 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" src="style.css">
 <!-- Did not change CSS from original yet -->
 <body>
-  <h3 id="sliderheader">Slider input</h3>
-  <input type="range" min="31" max="34" value="31" class="slider" id="num">
+  <h3 id="sliderheader">Calendar input</h3>
+  <!-- <input type="range" min="31" max="34" value="33" class="slider" id="num"> -->
+  <input type="text" id="weekPicker">
   <br>
-  <h3>Button input</h3>
+  <a href="#" class="fa fa-facebook"></a>
+  <a href="#" class="fa fa-twitter"></a>
+  <!-- <h3>Button input</h3>
   <button onclick="visualise('wk31', wk31_data)">Week 31</button>
   <button onclick="visualise('wk32', wk32_data)">Week 32</button>
   <button onclick="visualise('ldavis_el58601401036016732647332626198', ldavis_el58601401036016732647332626198_data)">Sample</button>
-  <button onclick="visualise('ldavis_el716421126754284165291324392', ldavis_el716421126754284165291324392_data)">Tattle_Sample</button>
+  <button onclick="visualise('ldavis_el716421126754284165291324392', ldavis_el716421126754284165291324392_data)">Tattle_Sample</button> -->
 <div id="superdiv"></div>
 
 </body>
+<!-- <script type="text/javascript">
+readURL();
+</script> -->
 <script type="text/javascript" src="ldavis.v1.0.1.js"></script>
 <script type="text/javascript" src="d3.min.js"></script>
 <script type="text/javascript" src="data.js"></script>
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="jquery.weekpicker.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/flick/jquery-ui.css">
 <script type="text/javascript">
+  
+  var vis_params = {
+      year: 2020,
+      week: 31
+    };
+
+
+
+  readURL();
+  $("#weekPicker").weekpicker({
+
+    // set start day of the week
+    firstDay: 1,
+
+    // custom date format
+    dateFormat: "dd/m/yy",
+
+    // shows other months
+    showOtherMonths: true,
+
+    // allows to select other months
+    selectOtherMonths: true,
+
+    // shows the current week number
+    showWeek: true,
+
+    // supported keywords:
+    //  w  = week number, eg. 3
+    //  ww = zero-padded week number, e.g. 03
+    //  o  = short (week) year number, e.g. 18
+    //  oo = long (week) year number, e.g. 2018
+    weekFormat: "ww/oo"
+
+  });
+
+
+    // const slider = document.getElementById('num');
+    const header = document.getElementById('sliderheader');
+    const input = document.getElementById('weekPicker');
+
+    // slider.oninput = visChange();
+    input.onchange = visChange();
 
 function LDAvis_load_lib(url, callback){
   var s = document.createElement('script');
@@ -75,39 +129,90 @@ function visualise(wkID){
   vis.id = wkID;
   parentdiv.appendChild(vis);
   // On passing a string, function looks for a data file.Can be used to feed data files dynamically
-  new LDAvis('#' + wkID, wkID +'.json'); 
+  new LDAvis('#' + wkID, '/data/'+ wkID +'.json'); 
   // new LDAvis('#' + wkID, data);
 }
+    function readURL() {
+      var params = location.hash.split("&");
+      console.log(params);
+      if (params.length > 1) {
+        vis_params.year = params[0].split("=")[1];
+        vis_params.week = params[1].split("=")[1];
+        // vis_state.term = params[2].split("=")[1];
+        // A lot depends on this following change triggering slider.oninput
+        // console.log("Ye bhi execute hua");
+        // document.getElementById('num').value = vis_params.week;
+        // console.log(document.getElementById('num').value)
+        console.log("read url is working");
+        visChange();
+        // document.getElementById(lambdaID + "-value").innerHTML = vis_state.lambda;
 
-const slider = document.getElementById('num');
-const header =  document.getElementById('sliderheader');
-
-slider.oninput = function () {
-    
-    console.log(this.value);
-
-    switch (this.value) {
-      case '31':
-        visualise('wk31'); 
-       break;
-      case '32':
-        visualise('wk32');
-        break;
-
-      case '33':
-        // visualise('ldavis_el58601401036016732647332626198', ldavis_el58601401036016732647332626198_data);
-        visualise('ldavis_el58601401036016732647332626198');
-        break;
-
-      case '34':
-        // visualise('ldavis_el716421126754284165291324392', ldavis_el716421126754284165291324392_data);
-        visualise('ldavis_el716421126754284165291324392');
-        break;
-      default:
-        console.log("Slider error")
-        break;
+      }
     }
-    header.innerText="Slider input (Week " + this.value + ")"; 
+
+
+
+function visChange () {
+    
+  // console.log(slider.value);
+    console.log(`vis_params.week is ${vis_params.week}`);
+
+    // switch (vis_params.week) {
+    //   case '31':
+    //     visualise('wk31'); 
+    //    break;
+    //   case '32':
+    //     visualise('wk32');
+    //     break;
+
+    //   case '33':
+    //     // visualise('ldavis_el58601401036016732647332626198', ldavis_el58601401036016732647332626198_data);
+    //     visualise('wk33');
+    //     break;
+
+    //   case '34':
+    //     // visualise('ldavis_el716421126754284165291324392', ldavis_el716421126754284165291324392_data);
+    //     visualise('ldavis_el716421126754284165291324392');
+    //     break;
+    //   default:
+    //     console.log("Slider error")
+    //     break;
+    // }
+    // header.innerText="Slider input (Week " + viz_params.week + ")"; 
     // visualise('wk32', wk32_data);
+
+    // console.log(`Weekly input value is ${input.value}`);
+    visualise('wk'+vis_params.week);
+
 } 
+
+// From here starts the trial for figuring out the adress bar manipulation
+
+  function state_url() {
+    return location.origin + location.pathname + "#year=" + vis_params.year +
+      "&week=" + vis_params.week;
+  }
+
+  function state_save(replace) {
+    console.log('state saved');
+      if (replace)
+        history.replaceState(vis_params, "Query", state_url());
+      else
+        history.pushState(vis_params, "Query", state_url());
+    }
+
+  // function state_reset() {
+  //     if (vis_params.topic > 0) {
+  //       topic_off(document.getElementById(topicID + vis_state.topic));
+  //     }
+  //     if (vis_state.term != "") {
+  //       term_off(document.getElementById(termID + vis_state.term));
+  //     }
+  //     vis_state.term = "";
+  //     document.getElementById(topicID).value = vis_state.topic = 0;
+  //     state_save(true);
+  //   }
+    // console.log("after the first one")
+    readURL();
+    
 </script>
