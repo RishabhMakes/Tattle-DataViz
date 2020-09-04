@@ -1205,6 +1205,7 @@ var LDAvis = function(to_select, data_or_file_name) {
                 .data(data['per_cluster_headlines'][topics])
                 .enter()
                 .append("a")
+                .attr("class","link-texts")
                 .attr("xlink:href", function(d){
                     return d;
                 })
@@ -1219,25 +1220,6 @@ var LDAvis = function(to_select, data_or_file_name) {
                 .text(function(d){
                     return d;
                 });
-            // console.log(data['per_cluster_headlines'])
-            // links.append("a")
-            // .attr("xlink:href")
-            // linkbox.append("text")
-            //     .attr("class", "link-texts")
-            //     .attr("x", 0)
-            //     .attr("y", 0)
-            //     // .text(function(d){
-            //     //     console.log(d);
-            //     //     return d;
-            //     // });
-            //     .text("hello");
-
-            // links.append("text")
-            //     .attr("x", 0)
-            //     .attr("y", function (d) {
-            //         return d + 5;
-            //     })
-            //     .text("hello there");
         }
 
 
@@ -1312,6 +1294,9 @@ var LDAvis = function(to_select, data_or_file_name) {
             d3.selectAll(to_select + " .xaxis")
                 .attr("class", "xaxis")
                 .call(xAxis);
+            
+            var links = linkbox.selectAll(to_select + " .link-texts");
+            links.remove();
         }
 
         // event definition for mousing over a term
