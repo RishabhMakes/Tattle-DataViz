@@ -4,7 +4,16 @@
 <link rel="stylesheet" type="text/css" src="style.css">
 <!-- Did not change CSS from original yet -->
 <body>
-  <h3 id="sliderheader">Calendar input</h3>
+  <h2>Themes in Factchecking Articles</h2>
+  <p>This interactive dashboard displays the themes in factchecking articles we scraped in the selected week. Articles are
+  grouped into thematic clusters using an algorithm known as Gibbs Sampling Dirichlet Multinomial Mixture (<a href="https://github.com/rwalk/gsdmm">GSDMM</a>), which
+  clusters the article headlines based on the similarity of their constituent words. The number of clusters is decided by
+  a human (a Tattle team member) after some experimentation, with the aim of producing meaningful results.
+  The algorithm does not generate names for the clusters. We have chosen to leave them unnamed to allow flexible
+  interpretation, but they are numbered for identification. Hovering over a cluster on the left displays its constituent
+  words on the right. Clicking on a cluster displays links to the articles that comprise it. The dashboard design is
+  inspired by <a href="https://www.aclweb.org/anthology/W14-3110.pdf">LDAvis</a>, a visualisation technique for topic models.</p>
+  <h4 id="sliderheader">Click on the box to select a week</h4>
   <!-- <input type="range" min="31" max="34" value="33" class="slider" id="num"> -->
   <input type="text" id="weekPicker">
   <br>
@@ -16,6 +25,7 @@
   <button onclick="visualise('ldavis_el58601401036016732647332626198', ldavis_el58601401036016732647332626198_data)">Sample</button>
   <button onclick="visualise('ldavis_el716421126754284165291324392', ldavis_el716421126754284165291324392_data)">Tattle_Sample</button> -->
 <div id="superdiv"></div>
+Source: <a href="https://tattle.co.in/products/kosh/">Tattle archive</a>
 
 </body>
 <!-- <script type="text/javascript">
@@ -23,9 +33,9 @@ readURL();
 </script> -->
 <script type="text/javascript" src="ldavis.v1.0.1.js"></script>
 <script type="text/javascript" src="d3.min.js"></script>
-<script type="text/javascript" src="data.js"></script>
-<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- <script type="text/javascript" src="data.js"></script> -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="jquery.weekpicker.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/flick/jquery-ui.css">
 <script type="text/javascript">
@@ -144,7 +154,7 @@ function visualise(wkID){
         // document.getElementById('num').value = vis_params.week;
         // console.log(document.getElementById('num').value)
         console.log("read url is working");
-        visChange();
+        // visChange();
         // document.getElementById(lambdaID + "-value").innerHTML = vis_state.lambda;
 
       }
@@ -213,6 +223,6 @@ function visChange () {
   //     state_save(true);
   //   }
     // console.log("after the first one")
-    readURL();
+    // readURL();
     
 </script>

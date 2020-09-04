@@ -5,7 +5,7 @@
 'use strict';
 
 var LDAvis = function(to_select, data_or_file_name) {
-    console.log("called again")
+    console.log("called again for " + data_or_file_name)
     // This section sets up the logic for event handling
     var current_clicked = {
         what: "nothing",
@@ -53,7 +53,7 @@ var LDAvis = function(to_select, data_or_file_name) {
         mdswidth = 530,
         mdsheight = 530,
         barwidth = 530,
-        barheight = 530,
+        barheight = 300,
         termwidth = 90, // width to add between two panels to display terms
         mdsarea = mdsheight * mdswidth;
     // controls how big the maximum circle can be
@@ -112,7 +112,7 @@ var LDAvis = function(to_select, data_or_file_name) {
         K = data['mdsDat'].x.length;
 
         // R is the number of top relevant (or salient) words whose bars we display
-        R = Math.min(data['R'], 30);
+        R = Math.min(data['R'], 10);
 
         // a (K x 5) matrix with columns x, y, topics, Freq, cluster (where x and y are locations for left panel)
         mdsData = [];
@@ -315,7 +315,7 @@ var LDAvis = function(to_select, data_or_file_name) {
         mdsplot.append("text") // label x-axis
             .attr("x", 0)
             .attr("y", mdsheight/2 - 5)
-            .text(data['plot.opts'].xlab)
+            // .text(data['plot.opts'].xlab)
             .attr("fill", "gray");
 
         mdsplot.append("line") // draw y-axis
@@ -328,7 +328,7 @@ var LDAvis = function(to_select, data_or_file_name) {
         mdsplot.append("text") // label y-axis
             .attr("x", mdswidth/2 + 5)
             .attr("y", 7)
-            .text(data['plot.opts'].ylab)
+            // .text(data['plot.opts'].ylab)
             .attr("fill", "gray");
 
         // new definitions based on fixing the sum of the areas of the default topic circles:
@@ -340,58 +340,58 @@ var LDAvis = function(to_select, data_or_file_name) {
 
         // circle guide inspired from
         // http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html?_r=0
-        var circleGuide = function(rSize, size) {
-            d3.select("#" + leftPanelID).append("circle")
-                .attr('class', "circleGuide" + size)
-                .attr('r', rSize)
-                .attr('cx', cx)
-                .attr('cy', mdsheight + rSize)
-                .style('fill', 'none')
-                .style('stroke-dasharray', '2 2')
-                .style('stroke', '#999');
-            d3.select("#" + leftPanelID).append("line")
-                .attr('class', "lineGuide" + size)
-                .attr("x1", cx)
-                .attr("x2", cx2)
-                .attr("y1", mdsheight + 2 * rSize)
-                .attr("y2", mdsheight + 2 * rSize)
-                .style("stroke", "gray")
-                .style("opacity", 0.3);
-        };
+        // var circleGuide = function(rSize, size) {
+        //     d3.select("#" + leftPanelID).append("circle")
+        //         .attr('class', "circleGuide" + size)
+        //         .attr('r', rSize)
+        //         .attr('cx', cx)
+        //         .attr('cy', mdsheight + rSize)
+        //         .style('fill', 'none')
+        //         .style('stroke-dasharray', '2 2')
+        //         .style('stroke', '#999');
+        //     d3.select("#" + leftPanelID).append("line")
+        //         .attr('class', "lineGuide" + size)
+        //         .attr("x1", cx)
+        //         .attr("x2", cx2)
+        //         .attr("y1", mdsheight + 2 * rSize)
+        //         .attr("y2", mdsheight + 2 * rSize)
+        //         .style("stroke", "gray")
+        //         .style("opacity", 0.3);
+        // };
 
-        circleGuide(newSmall, "Small");
-        circleGuide(newMedium, "Medium");
-        circleGuide(newLarge, "Large");
+        // circleGuide(newSmall, "Small");
+        // circleGuide(newMedium, "Medium");
+        // circleGuide(newLarge, "Large");
 
-        var defaultLabelSmall = "2%";
-        var defaultLabelMedium = "5%";
-        var defaultLabelLarge = "10%";
+        // var defaultLabelSmall = "2%";
+        // var defaultLabelMedium = "5%";
+        // var defaultLabelLarge = "10%";
 
-        d3.select("#" + leftPanelID).append("text")
-            .attr("x", 10)
-            .attr("y", mdsheight - 10)
-            .attr('class', "circleGuideTitle")
-            .style("text-anchor", "left")
-            .style("fontWeight", "bold")
-            .text("Marginal topic distribtion");
-        d3.select("#" + leftPanelID).append("text")
-            .attr("x", cx2 + 10)
-            .attr("y", mdsheight + 2 * newSmall)
-            .attr('class', "circleGuideLabelSmall")
-            .style("text-anchor", "start")
-            .text(defaultLabelSmall);
-        d3.select("#" + leftPanelID).append("text")
-            .attr("x", cx2 + 10)
-            .attr("y", mdsheight + 2 * newMedium)
-            .attr('class', "circleGuideLabelMedium")
-            .style("text-anchor", "start")
-            .text(defaultLabelMedium);
-        d3.select("#" + leftPanelID).append("text")
-            .attr("x", cx2 + 10)
-            .attr("y", mdsheight + 2 * newLarge)
-            .attr('class', "circleGuideLabelLarge")
-            .style("text-anchor", "start")
-            .text(defaultLabelLarge);
+        // d3.select("#" + leftPanelID).append("text")
+        //     .attr("x", 10)
+        //     .attr("y", mdsheight - 10)
+        //     .attr('class', "circleGuideTitle")
+        //     .style("text-anchor", "left")
+        //     .style("fontWeight", "bold")
+        //     .text("Marginal topic distribtion");
+        // d3.select("#" + leftPanelID).append("text")
+        //     .attr("x", cx2 + 10)
+        //     .attr("y", mdsheight + 2 * newSmall)
+        //     .attr('class', "circleGuideLabelSmall")
+        //     .style("text-anchor", "start")
+        //     .text(defaultLabelSmall);
+        // d3.select("#" + leftPanelID).append("text")
+        //     .attr("x", cx2 + 10)
+        //     .attr("y", mdsheight + 2 * newMedium)
+        //     .attr('class', "circleGuideLabelMedium")
+        //     .style("text-anchor", "start")
+        //     .text(defaultLabelMedium);
+        // d3.select("#" + leftPanelID).append("text")
+        //     .attr("x", cx2 + 10)
+        //     .attr("y", mdsheight + 2 * newLarge)
+        //     .attr('class', "circleGuideLabelLarge")
+        //     .style("text-anchor", "start")
+        //     .text(defaultLabelLarge);
 
         // bind mdsData to the points in the left panel:
         var points = mdsplot.selectAll("points")
@@ -462,7 +462,7 @@ var LDAvis = function(to_select, data_or_file_name) {
             });
 
         svg.append("text")
-            .text("Distance between Topics")
+            .text("Thematic Cluster Map")
             .attr("x", mdswidth/2 + margin.left)
             .attr("y", 30)
             .style("font-size", "16px")
@@ -520,27 +520,36 @@ var LDAvis = function(to_select, data_or_file_name) {
             .style("dominant-baseline", "middle")
             .text("Estimated term frequency within the selected topic");
 
-        // footnotes:
-        // d3.select("#" + barFreqsID)
-        //     .append("a")
-        //     .attr("xlink:href", "http://vis.stanford.edu/files/2012-Termite-AVI.pdf")
-        //     .attr("target", "_blank")
-        //     .append("text")
-        //     .attr("x", 0)
-        //     .attr("y", mdsheight + 10 + (6/2)*barguide.height + 5)
-        //     .style("dominant-baseline", "middle")
-        //     .text("1. saliency(term w) = frequency(w) * [sum_t p(t | w) * log(p(t | w)/p(t))] for topics t; see Chuang et. al (2012)");
-        // d3.select("#" + barFreqsID)
-        //     .append("a")
-        //     .attr("xlink:href", "http://nlp.stanford.edu/events/illvi2014/papers/sievert-illvi2014.pdf")
-        //     .attr("target", "_blank")
-        //     .append("text")
-        //     .attr("x", 0)
-        //     .attr("y", mdsheight + 10 + (8/2)*barguide.height + 5)
-        //     .style("dominant-baseline", "middle")
-        //     .text("2. relevance(term w | topic t) = \u03BB * p(w | t) + (1 - \u03BB) * p(w | t)/p(w); see Sievert & Shirley (2014)");
-
-        // Bind 'default' data to 'default' bar chart
+        footnotes:
+        d3.select("#" + barFreqsID)
+            // .append("a")
+            // .attr("xlink:href", "http://vis.stanford.edu/files/2012-Termite-AVI.pdf")
+            // .attr("target", "_blank")
+            .append("text")
+            .attr("x", 0)
+            .attr("y", mdsheight + 10 + (6/2)*barguide.height + 5)
+            .style("dominant-baseline", "middle")
+            .text("1. Number of Articles in this week: " + data['number_of_articles']);
+        d3.select("#" + barFreqsID)
+            .append("a")
+            .attr("xlink:href", "https://opendatacommons.org/licenses/odbl/")
+            .attr("target", "_blank")
+            .append("text")
+            .attr("x", 0)
+            .attr("y", mdsheight + 10 + (8/2)*barguide.height + 5)
+            .style("dominant-baseline", "middle")
+            .text("2. The factchecking site data scraped by Tattle is licensed under ODbL.");
+        d3.select("#" + barFreqsID)
+            .append("a")
+            .attr("xlink:href", "https://tattle.co.in/contact/")
+            .attr("target", "_blank")
+            .append("text")
+            .attr("x", 0)
+            .attr("y", mdsheight + 10 + (10 / 2) * barguide.height + 5)
+            .style("dominant-baseline", "middle")
+            .text("3. Please contact us here to use this data");
+        
+            // Bind 'default' data to 'default' bar chart
         var basebars = chart.selectAll(to_select + " .bar-totals")
                 .data(barDefault2)
                 .enter();
@@ -601,12 +610,12 @@ var LDAvis = function(to_select, data_or_file_name) {
                 .attr("class", "bubble-tool") //  set class so we can remove it when highlight_off is called
                 .style("text-anchor", "middle")
                 .style("font-size", "16px")
-                .text("Top-" + R + " Most Salient Terms");
+                .text("Top-" + R + " Terms this week");
 
-        title.append("tspan")
-            .attr("baseline-shift", "super")
-            .attr("font-size", "12px")
-            .text("(1)");
+        // title.append("tspan")
+        //     .attr("baseline-shift", "super")
+        //     .attr("font-size", "12px")
+        //     .text("(1)");
 
         // barchart axis adapted from http://bl.ocks.org/mbostock/1166403
         var xAxis = d3.svg.axis().scale(x)
@@ -1025,6 +1034,8 @@ var LDAvis = function(to_select, data_or_file_name) {
                     .call(xAxis);
             }
         }
+        /////////////////////Adding the box of links////////////////////////////////
+        
 
         //////////////////////////////////////////////////////////////////////////////
 
@@ -1035,6 +1046,7 @@ var LDAvis = function(to_select, data_or_file_name) {
 
             // grab data bound to this element
             var d = circle.__data__;
+            console.log(d);
             var Freq = Math.round(d.Freq * 10) / 10,
                 topics = d.topics;
             var labels = d.labels;
@@ -1055,7 +1067,7 @@ var LDAvis = function(to_select, data_or_file_name) {
                 .attr("class", "bubble-tool") //  set class so we can remove it when highlight_off is called
                 .style("text-anchor", "middle")
                 .style("font-size", "16px")
-                .text("Top-" + R + " Most Relevant Terms for Topic " + labels + " (" + Freq + "% of tokens)");
+                .text("Top-" + R + " Terms(Words) in cluster " + labels + " (" + Freq + "% of all words)");
 
             // grab the bar-chart data for this topic only:
             var dat2 = lamData.filter(function(d) {
@@ -1157,11 +1169,11 @@ var LDAvis = function(to_select, data_or_file_name) {
             circle.style.fill = color1;
 
             var title = d3.selectAll(to_select + " .bubble-tool")
-                    .text("Top-" + R + " Most Salient Terms");
-            title.append("tspan")
-                .attr("baseline-shift", "super")
-                .attr("font-size", 12)
-                .text(1);
+                    .text("Top-" + R + " Terms this week");
+            // title.append("tspan")
+            //     .attr("baseline-shift", "super")
+            //     .attr("font-size", 12)
+            //     .text(1);
 
             // remove the red bars
             d3.selectAll(to_select + " .overlay").remove();
@@ -1182,7 +1194,8 @@ var LDAvis = function(to_select, data_or_file_name) {
                     })])
                     .range([0, barwidth])
                     .nice();
-
+            
+            // console.log("bar size debug:"+dat2[0]);
             // Change Total Frequency bars
             d3.selectAll(to_select + " .bar-totals")
                 .data(dat2)
