@@ -88,6 +88,7 @@ var LDAvis = function(to_select, data_or_file_name) {
     var lambdaZeroID = visID + "-lambdaZero";
     var sliderDivID = visID + "-sliderdiv";
     var lambdaLabelID = visID + "-lamlabel";
+    var linkboxID = visID + "-linkbox";
 
     //////////////////////////////////////////////////////////////////////////////
 
@@ -1035,8 +1036,44 @@ var LDAvis = function(to_select, data_or_file_name) {
             }
         }
         /////////////////////Adding the box of links////////////////////////////////
-        
+        // <foreignObject class="links" x="" y="" width="5" >
 
+        // </foreignObject>
+
+        var linkbox = chart.append("g")
+                        .attr("transform", "translate(0" + "," + ( barheight+ 0.5*margin.top) + ")")
+                        .attr("id", linkboxID);
+
+        linkbox.append("rect")
+                .attr("x",0)
+                .attr("y",0)
+                .attr("height",200)
+                .attr("width", barwidth)
+                .style("fill", color2)
+                .attr("id","testbox");
+        var links = linkbox.selectAll(to_select + " .link-texts")
+                    .data(data['topic.order'])
+                    .enter();
+        // console.log(data['per_cluster_headlines'])
+        // links.append("a")
+            // .attr("xlink:href")
+       
+            // linkbox.append("text")
+        //     .attr("class", "link-texts")
+        //     .attr("x",0)
+        //     .attr("y",0)
+        //     // .text(function(d){
+        //     //     console.log(d);
+        //     //     return d;
+        //     // });
+        //     .text("test text in linkbox");
+
+        // links.append("text")
+        //     .attr("x", 0)
+        //     .attr("y", function(d){
+        //         return d + 5;
+        //     })
+        //     .text("text from d.topic order");
         //////////////////////////////////////////////////////////////////////////////
 
         // function to update bar chart when a topic is selected
@@ -1159,6 +1196,48 @@ var LDAvis = function(to_select, data_or_file_name) {
             d3.selectAll(to_select + " .xaxis")
             //.attr("class", "xaxis")
                 .call(xAxis);
+
+            /////////////RISHABH Update links
+            var Y_coord=d3.scale.ordinal()
+                        .domain(data['per_cluster_headlines'][topics])
+                        .rangePoints([0,150]);
+            var links = linkbox.selectAll(to_select + " .link-texts")
+                .data(data['per_cluster_headlines'][topics])
+                .enter()
+                .append("a")
+                .attr("xlink:href", function(d){
+                    return d;
+                })
+                .attr("target", "_blank")
+                .append("text")
+                .attr("x",0)
+                // .attr("y", Y_coord.rangeBand())
+                .attr("y", function (d,i) {
+                    return i*20;
+                })
+                .style("dominant-baseline", "bottom")
+                .text(function(d){
+                    return d;
+                });
+            // console.log(data['per_cluster_headlines'])
+            // links.append("a")
+            // .attr("xlink:href")
+            // linkbox.append("text")
+            //     .attr("class", "link-texts")
+            //     .attr("x", 0)
+            //     .attr("y", 0)
+            //     // .text(function(d){
+            //     //     console.log(d);
+            //     //     return d;
+            //     // });
+            //     .text("hello");
+
+            // links.append("text")
+            //     .attr("x", 0)
+            //     .attr("y", function (d) {
+            //         return d + 5;
+            //     })
+            //     .text("hello there");
         }
 
 
