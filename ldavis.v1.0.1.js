@@ -465,9 +465,17 @@ var LDAvis = function(to_select, data_or_file_name) {
         svg.append("text")
             .text("Thematic Cluster Map")
             .attr("x", mdswidth/2 + margin.left)
-            .attr("y", 30)
+            .attr("y", 20)
             .style("font-size", "16px")
             .style("text-anchor", "middle");
+
+        svg.append("text")
+            .text("(2D representation of mathematical 'distances' between the clusters)")
+            .attr("x", mdswidth / 2 + margin.left)
+            .attr("y", 40)
+            .style("font-size", "16px")
+            .style("text-anchor", "middle");
+
 
         // establish layout and vars for bar chart
         var barDefault2 = dat3.filter(function(d) {
@@ -1044,13 +1052,13 @@ var LDAvis = function(to_select, data_or_file_name) {
                         .attr("transform", "translate(0" + "," + ( barheight+ 0.5*margin.top) + ")")
                         .attr("id", linkboxID);
 
-        linkbox.append("rect")
-                .attr("x",0)
-                .attr("y",0)
-                .attr("height",200)
-                .attr("width", barwidth)
-                .style("fill", color2)
-                .attr("id","testbox");
+        // linkbox.append("rect")
+        //         .attr("x",0)
+        //         .attr("y",0)
+        //         .attr("height",200)
+        //         .attr("width", barwidth)
+        //         .style("fill", color2)
+        //         .attr("id","testbox");
         var links = linkbox.selectAll(to_select + " .link-texts")
                     .data(data['topic.order'])
                     .enter();
@@ -1104,7 +1112,9 @@ var LDAvis = function(to_select, data_or_file_name) {
                 .attr("class", "bubble-tool") //  set class so we can remove it when highlight_off is called
                 .style("text-anchor", "middle")
                 .style("font-size", "16px")
-                .text("Top-" + R + " Terms(Words) in cluster " + labels + " (" + Freq + "% of all words)");
+                // .text("Top-" + R + " Terms(Words) in cluster " + labels + " (" + Freq + "% of all words)")
+                .text("Top-" + R + " Terms(Words) in cluster " + labels)
+                ;
 
             // grab the bar-chart data for this topic only:
             var dat2 = lamData.filter(function(d) {
