@@ -1202,7 +1202,7 @@ var LDAvis = function(to_select, data_or_file_name) {
                         .domain(data['per_cluster_headlines'][topics])
                         .rangePoints([0,150]);
             var links = linkbox.selectAll(to_select + " .link-texts")
-                .data(data['per_cluster_headlines'][topics])
+                .data(data['per_cluster_headlines'][topics].slice(0,10))
                 .enter()
                 .append("a")
                 .attr("class","link-texts")
@@ -1214,7 +1214,7 @@ var LDAvis = function(to_select, data_or_file_name) {
                 .attr("x",0)
                 // .attr("y", Y_coord.rangeBand())
                 .attr("y", function (d,i) {
-                    return i*20;
+                    return i*20 +15;
                 })
                 .style("dominant-baseline", "bottom")
                 .text(function(d){

@@ -17,16 +17,20 @@
   <!-- <input type="range" min="31" max="34" value="33" class="slider" id="num"> -->
   <input type="text" id="weekPicker">
   <br>
-  <a href="#" class="fa fa-facebook"></a>
-  <a href="#" class="fa fa-twitter"></a>
-  <!-- <h3>Button input</h3>
-  <button onclick="visualise('wk31', wk31_data)">Week 31</button>
-  <button onclick="visualise('wk32', wk32_data)">Week 32</button>
+  <!-- <a href="#" class="fa fa-facebook"></a>
+  <a href="#" class="fa fa-twitter"></a> -->
+  <!-- <h3>Button input</h3> -->
+
+
+  <!-- <button onclick="svgToCanvas()">Create img</button> -->
+
+
+  <!-- <button onclick="visualise('wk32', wk32_data)">Week 32</button>
   <button onclick="visualise('ldavis_el58601401036016732647332626198', ldavis_el58601401036016732647332626198_data)">Sample</button>
   <button onclick="visualise('ldavis_el716421126754284165291324392', ldavis_el716421126754284165291324392_data)">Tattle_Sample</button> -->
 <div id="superdiv"></div>
 Source: <a href="https://tattle.co.in/products/kosh/">Tattle archive</a>
-
+<div id="imgcont"></div>
 </body>
 <!-- <script type="text/javascript">
 readURL();
@@ -225,4 +229,33 @@ function visChange () {
     // console.log("after the first one")
     // readURL();
     
+    function svgToCanvas() {
+        // Select the first svg element
+        var svg = document.getElementsByTagName("svg")[1],
+          img = new Image(),
+          serializer = new XMLSerializer(),
+          svgStr = serializer.serializeToString(svg);
+        // console.log(svg);
+        // img.src = 'data:image/svg+xml;base64,' + window.btoa(svgStr);
+
+        // You could also use the actual string without base64 encoding it:
+        img.src = "data:image/svg+xml;utf8," + svgStr;
+
+        // var imgCont = document.getElementById('imgcont');
+        // var imgexport = imgcont.appendChild(img);
+        var canvas = document.createElement("canvas");
+        document.body.appendChild(canvas);
+        var w= 605;
+        var h = 390;
+        console.log(`width: ${w}, Height: ${h}`);
+        canvas.width = w;
+        canvas.height = h;
+        canvas.style.width = "605px";
+      canvas.style.height = "390px";
+        // console.log(canvas);
+       var ctx =  canvas.getContext("2d");
+       console.log(img);
+       ctx.drawImage(img, 0, 0,400,400);
+        // Now save as png or whatever
+      };
 </script>
