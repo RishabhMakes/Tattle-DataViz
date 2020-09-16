@@ -26,7 +26,7 @@ var LDAvis = function(to_select, data_or_file_name) {
         };
     
     // vis_params.week = parseInt(to_select.substring(to_select.length-2,to_select.length));
-    state_save(true);
+    // state_save(true);
     // Set up a few 'global' variables to hold the data:
     var K, // number of topics
         R, // number of terms to display in bar chart
@@ -285,6 +285,7 @@ var LDAvis = function(to_select, data_or_file_name) {
         var svg = d3.select(to_select).append("svg")
                 .attr("width", mdswidth + barwidth + margin.left + termwidth + margin.right)
                 .attr("height", mdsheight + 2 * margin.top + margin.bottom + 2 * rMax);
+        //React Component export?
 
         // Create a group for the mds plot
         var mdsplot = svg.append("g")
@@ -415,7 +416,7 @@ var LDAvis = function(to_select, data_or_file_name) {
             .style("fontWeight", 100)
             .text(function(d) {
                 console.log(d.labels);
-                return d.labels;
+                return d.topics;
             });
 
         // draw circles
@@ -557,12 +558,25 @@ var LDAvis = function(to_select, data_or_file_name) {
             .attr("y", mdsheight + 10 + (10 / 2) * barguide.height + 5)
             .style("dominant-baseline", "middle")
             .text("3. Please contact us here to use this data");
+        d3.select("#" + barFreqsID)
+            .append("a")
+            .attr("xlink:href", "https://tattle.co.in/")
+            .attr("target", "_blank")
+            .append("image")
+            // .attr("xlink:href", "https://opendatacommons.org/licenses/odbl/")
+            // .attr("target", "_blank")
+            // .append("text")
+            .attr("x", 460)
+            .attr("y", mdsheight + 25)
+            .attr("height", 80)
+            .attr("width", 80)
+            .attr("xlink:href", "logo.svg");
         
             // Bind 'default' data to 'default' bar chart
         var basebars = chart.selectAll(to_select + " .bar-totals")
                 .data(barDefault2)
                 .enter();
-
+            
         // Draw the gray background bars defining the overall frequency of each word
         basebars
             .append("rect")
@@ -1067,14 +1081,14 @@ var LDAvis = function(to_select, data_or_file_name) {
             // .attr("xlink:href")
        
             // linkbox.append("text")
-        //     .attr("class", "link-texts")
-        //     .attr("x",0)
-        //     .attr("y",0)
-        //     // .text(function(d){
-        //     //     console.log(d);
-        //     //     return d;
-        //     // });
-        //     .text("test text in linkbox");
+            // .attr("class", "link-texts")
+            // .attr("x",0)
+            // .attr("y",0)
+            // // .text(function(d){
+            // //     console.log(d);
+            // //     return d;
+            // // });
+            // .text("test text in linkbox");
 
         // links.append("text")
         //     .attr("x", 0)
@@ -1094,7 +1108,8 @@ var LDAvis = function(to_select, data_or_file_name) {
             console.log(d);
             var Freq = Math.round(d.Freq * 10) / 10,
                 topics = d.topics;
-            var labels = d.labels;
+            // var labels = d.labels;
+            var labels = d.topics;
 
             // change opacity and fill of the selected circle
             circle.style.opacity = highlight_opacity;
@@ -1211,6 +1226,19 @@ var LDAvis = function(to_select, data_or_file_name) {
             var Y_coord=d3.scale.ordinal()
                         .domain(data['per_cluster_headlines'][topics])
                         .rangePoints([0,150]);
+            linkbox
+              .append("text")
+              .attr("class", "link-texts")
+              .attr("x", 0)
+              .attr("y", 12)
+              // .text(function(d){
+              //     console.log(d);
+              //     return d;
+              // });
+              .attr("fill",color1)
+              .attr("font-weight", "bold")
+              .text("Related Articles");
+
             var links = linkbox.selectAll(to_select + " .link-texts")
                 .data(data['per_cluster_headlines'][topics].slice(0,10))
                 .enter()
